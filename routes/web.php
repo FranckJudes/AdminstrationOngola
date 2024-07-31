@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use Brian2694\Toastr\Facades\Toastr;
 
 Route::get('', function () {
-    Toastr::success('Messages in here', 'Title', ["positionClass" => "toast-top-center"]);
 
     return view('Dashboard.index');
 });
@@ -36,6 +35,7 @@ Route::get('/activer_livreur/{id}', [App\Http\Controllers\Livreurs\LivreurContro
 
 Route::post('/password', [App\Http\Controllers\Settings\PasswordController::class, 'store'])->name('password_save');
 Route::get('/partenaire_associes/{id}', [App\Http\Controllers\SousAdmin\AdminController::class, 'partenaire_associes'])->name('partenaire_associes');
+Route::post('/update_theme_app', [App\Http\Controllers\Settings\SettingController::class, 'update_theme_app'])->name('update_theme_app');
 
 
 

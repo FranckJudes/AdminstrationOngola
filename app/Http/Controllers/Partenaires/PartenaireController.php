@@ -16,7 +16,7 @@ class PartenaireController extends Controller
     public function index()
     {
         $users = User::where('type','2')->get();
-        $partenaires =  Partenaires::all();
+        $partenaires =  Partenaires::with('adminstrateurs')->get();
         return view('partenaires.add_admin',compact('partenaires','users'));
     }
 
@@ -42,23 +42,24 @@ class PartenaireController extends Controller
         });
 
         // dd($partenairesArray);
-        try {
-            foreach ($request->Admin as $value) {
-               $user = User::find($value);
-               foreach ($partenairesArray as $part) {
-
-
-                   $user->partenaires()->attach($part);
-
-               }
-               $user->save();
-
-               Toastr::success('Messages in here', 'Title');
-               return redirect()->back();
+        if ($partenairesArray) {
+            # code...
+            try {
+                foreach ($request->Admin as $value) {
+                   $user = User::find($value);
+                   foreach ($partenairesArray as $part) {
+                       $user->partenaires()->attach($part);
+                   }
+                   $user->save();
+                   toastr()->success('Data has been saved successfully!');
+                   return redirect()->back();
+                }
+            } catch (\Throwable $th) {
+                toastr()->error('An error has occurred please try again later.');
+                return redirect()->back();
             }
-        } catch (\Throwable $th) {
-            return $th;
-            Toastr::error('Messages in here', 'Title');
+        }else{
+            toastr()->error('Veuillez selectionner un partenaire.');
             return redirect()->back();
         }
     }

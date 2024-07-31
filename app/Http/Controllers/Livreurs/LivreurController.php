@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Livreurs;
 use App\Models\PasswordDefault;
 use Illuminate\Http\Request;
-use Brian2694\Toastr\Facades\Toastr;
 use Illuminate\Support\Facades\Hash;
 
 class LivreurController extends Controller
@@ -73,14 +72,13 @@ class LivreurController extends Controller
             'status' => 1,
         ]);
 
-        // Sauvegarder le livreur dans la base de données
-        $livreur->save();
-        Toastr::success('Messages in here', 'Title');
-        return redirect()->back();
+            // Sauvegarder le livreur dans la base de données
+            $livreur->save();
+            toastr()->success('Data has been saved successfully!');
+            return redirect()->back();
          } catch (\Throwable $th) {
-             Toastr::error('Messages in here', 'Title');
-             return redirect()->back();
-            dd($th);
+            toastr()->error('An error has occurred please try again later.');
+            return redirect()->back();
         }
 
     }
@@ -146,11 +144,11 @@ class LivreurController extends Controller
 
             // Sauvegarder le livreur dans la base de données
             $livreur->save();
-        Toastr::success('Messages in here', 'Title');
-        return redirect()->back();
+            toastr()->success('Data has been saved successfully!');
+            return redirect()->back();
             } catch (\Throwable $th) {
-                dd($th->getMessage());
-            Toastr::error('Messages in here', 'Title');
+                toastr()->error('An error has occurred please try again later.');
+                return redirect()->back();
         }
 
     }
@@ -175,11 +173,11 @@ class LivreurController extends Controller
             $livreur =  Livreurs::where('id',$id)->first();
             $livreur->status = '2';
             $livreur->save();
-            Toastr::success('Messages in here', 'Title');
+            toastr()->success('Data has been saved successfully!');
             return redirect()->back();
              } catch (\Throwable $th) {
-
-                Toastr::error('Messages in here', 'Title');
+                toastr()->error('An error has occurred please try again later.');
+                return redirect()->back();
             }
     }
 
@@ -189,11 +187,14 @@ class LivreurController extends Controller
             $livreur =  Livreurs::where('id',$id)->first();
             $livreur->status = '1';
             $livreur->save();
-            Toastr::success('Messages in here', 'Title');
-            return redirect()->back();
-             } catch (\Throwable $th) {
 
-                Toastr::error('Messages in here', 'Title');
-            }
+            toastr()->success('Data has been saved successfully!');
+            return redirect()->back();
+
+            } catch (\Throwable $th) {
+
+            toastr()->error('An error has occurred please try again later.');
+            return redirect()->back();
+        }
     }
 }

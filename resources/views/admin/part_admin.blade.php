@@ -8,9 +8,9 @@
 @section('content')
 <nav>
     <ol class="breadcrumb bg-primary text-white-all">
-    <li class="breadcrumb-item"><a href="{{url('/')}}"><i class="fas fa-tachometer-alt"></i> dashboard</a></li>
-    <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-list"></i> les Admins </li>
-</ol>
+        <li class="breadcrumb-item"><a href="{{url('/')}}"><i class="fas fa-tachometer-alt"></i> dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-list"></i> les Admins </li>
+    </ol>
 </nav>
 
 <section class="section">
@@ -21,7 +21,7 @@
               <h4>Les partenaires Associes a {{$users->name .' '. $users->lastname}}</h4>
               <div class="card-header-action">
                 <div class="card-header-action">
-                    <button type="button" class="btn btn-primary" onclick="get_partenaire();" data-toggle="modal" data-target="#exampleModal">choisir l'admin</button>
+                    <button type="button" class="btn btn-danger" onclick="get_partenaire();" data-toggle="modal" data-target="#exampleModal">Retirer a L'admin  </button>
                 </div>
               </div>
             </div>
@@ -37,8 +37,8 @@
                           <label for="checkbox-all" class="custom-control-label">&nbsp;</label>
                         </div>
                       </th>
-                      <th>N</th>
-                      <th>Progress</th>
+                      <th>Noms et Prenoms</th>
+                      <th>Adresse </th>
                       <th>Members</th>
                       <th>Actif depuis :</th>
                       <th>Status</th>

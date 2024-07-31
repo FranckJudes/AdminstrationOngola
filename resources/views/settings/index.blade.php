@@ -2,8 +2,12 @@
 
 @section('content')
 <section class="section">
-
-    <section class="section">
+        <nav>
+            <ol class="breadcrumb bg-primary text-white-all">
+                <li class="breadcrumb-item"><a href="{{url('/')}}"><i class="fas fa-tachometer-alt"></i> dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page"><i class="fas fa-list"></i> Parametres d'Ongola </li>
+            </ol>
+        </nav>
         <div class="row ">
             <div id="id_edition" onclick="event.preventDefault();default_password_livreurs();"
             class="col-xl-3 col-lg-6 col-md-6 col-sm-6 col-xs-12">

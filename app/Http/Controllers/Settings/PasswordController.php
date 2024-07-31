@@ -16,17 +16,18 @@ class PasswordController extends Controller
             if ($pass) {
                 $pass->value = $request->password;
                 $pass->save();
-                Toastr::success('Success','Mise a jour avec success');
+                toastr()->success('Data has been saved successfully!');
                 return redirect()->back();
             }else {
               $password = new PasswordDefault();
               $password->value = $request->password;
               $password->save();
-              Toastr::success('Success','Mise a jour avec success');
+              toastr()->success('Data has been saved successfully!');
               return redirect()->back();
             }
         } catch (\Throwable $th) {
-            throw $th;
+            toastr()->error('An error has occurred please try again later.');
+            return redirect()->back();
         }
     }
 }

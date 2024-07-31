@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Settings;
 use App\Http\Controllers\Controller;
 use App\Models\PasswordDefault;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SettingController extends Controller
 {
@@ -67,5 +68,20 @@ class SettingController extends Controller
     public function livreur_password(){
         $password = PasswordDefault::first();
         return view('settings.password-livreur',compact('password'));
+    }
+
+    public function update_theme_app(Request $request){
+        try {
+            $user =  Auth::user();
+            $user->theme_preference = $request->my_color_theme;
+            $user->save();
+            toastr()->success('Operation avec success');
+            return redirect()->back();
+
+        } catch (\Throwable $th) {
+            toastr()->error('Une erreur est survenue');
+            return redirect()->back();
+
+        }
     }
 }

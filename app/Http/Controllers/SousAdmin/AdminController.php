@@ -35,48 +35,58 @@ class AdminController extends Controller
     {
         $password = PasswordDefault::first();
 
-        try {
-             // Valider les données du formulaire
-          $request->validate([
-            'email' => 'nullable|string',
-            'nom' => 'nullable|string',
-            'prenom' => 'nullable|string',
-            'photo' => 'nullable|string',
-            'telephone' => 'nullable|string',
-            'sexe' => 'nullable|string',
-        ]);
+        if ($password) {
+            # code...
+            try {
+                 // Valider les données du formulaire
+                    $request->validate([
+                        'email' => 'nullable|string',
+                        'nom' => 'nullable|string',
+                        'prenom' => 'nullable|string',
+                        'photo' => 'nullable|string',
+                        'telephone' => 'nullable|string',
+                        'sexe' => 'nullable|string',
+                    ]);
 
-        if ($request->hasFile('photo')) {
-            $image = $request->file('photo');
-            $imageName = $image->getClientOriginalName(); // Nom original de l'image
+                    if ($request->hasFile('photo')) {
+                        $image = $request->file('photo');
+                        $imageName = $image->getClientOriginalName(); // Nom original de l'image
 
-            // Stockage de l'image dans le dossier "public/storage/photos"
-            $image->storeAs('storage/photos', $imageName);
+                        // Stockage de l'image dans le dossier "public/storage/photos"
+                        $image->storeAs('storage/photos', $imageName);
 
-            // Stockage du chemin de l'image dans la base de données
-            $photo = 'storage/photos/' . $imageName;
-        } else {
-            // Aucune image n'a été téléchargée
-            $photo = null;
-        }
-        $livreur = new User([
-            'email' => $request->address,
-            'name' => $request->nom,
-            'lastname' => $request->prenom,
-            'telephone' => $request->telephone,
-            'sexe' => $request->sexe,
-            'password' => Hash::make($password->value),
-            'photo' => $photo, // Stockage du chemin de l'image dans la base de données
-            'type' => '2',
-        ]);
+                        // Stockage du chemin de l'image dans la base de données
+                        $photo = 'storage/photos/' . $imageName;
+                    } else {
+                        // Aucune image n'a été téléchargée
+                        $photo = null;
+                    }
+                    $livreur = new User([
+                        'email' => $request->address,
+                        'name' => $request->nom,
+                        'lastname' => $request->prenom,
+                        'telephone' => $request->telephone,
+                        'sexe' => $request->sexe,
+                        'password' => Hash::make($password->value),
+                        'photo' => $photo, // Stockage du chemin de l'image dans la base de données
+                        'type' => '2',
+                    ]);
 
-        // Sauvegarder le livreur dans la base de données
-        $livreur->save();
-        Toastr::success('Messages in here', 'Title');
-        return redirect()->back();
-         } catch (\Throwable $th) {
-            dd($th);
-            Toastr::error('Messages in here', 'Title');
+                    // Sauvegarder le livreur dans la base de données
+                    $livreur->save();
+                    toastr()->success('Data has been saved successfully!');
+
+                    return redirect()->back();
+             } catch (\Exception $th) {
+                // dd($th->getLine());
+                toastr()->error('An error has occurred please try again later.');
+                return redirect()->back();
+
+            }
+        }else {
+                toastr()->error('Veuillez d\'abord configurer les mot de passe des admins');
+                return redirect()->back();
+
         }
 
     }
@@ -137,11 +147,11 @@ class AdminController extends Controller
                 $livreur->photo  = $photo; // Stockage du chemin de l'image dans la base de données
                 // Sauvegarder le livreur dans la base de données
                 $livreur->save();
-                Toastr::success('Messages in here', 'Title');
+                toastr()->success('Data has been saved successfully!', 'Congrats');
                 return redirect()->back();
                 } catch (\Throwable $th) {
                     dd($th);
-                    Toastr::error('Messages in here', 'Title');
+                    toastr()->error('Oops! Something went wrong!', 'Oops!');
                      return redirect()->back();
 
                 }
@@ -157,7 +167,7 @@ class AdminController extends Controller
             $livreur->delete();
             return response()->json(['status'=> 'success']);
              } catch (\Throwable $th) {
-                Toastr::error('Messages in here', 'Title');
+                toastr()->error('Oops! Something went wrong!', 'Oops!');
                 return redirect()->back();
             }
     }
@@ -166,7 +176,6 @@ class AdminController extends Controller
         try{
             $users =  User::find($id);
             $partenaires = $users->partenaires;
-
             return view('admin.part_admin',compact('partenaires', 'users'));
 
         }catch(\Throwable $th){

@@ -22,7 +22,8 @@
   @yield('links')
 </head>
 
-<body>
+<body id="myBody_Ongola" class="{{Auth::user()->theme_preference}}">
+
   <div class="loader"></div>
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
@@ -36,14 +37,7 @@
                 <i data-feather="maximize"></i>
               </a></li>
             <li>
-              <form class="form-inline mr-auto">
-                <div class="search-element">
-                  <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="200">
-                  <button class="btn" type="submit">
-                    <i class="fas fa-search"></i>
-                  </button>
-                </div>
-              </form>
+              
             </li>
           </ul>
         </div>
@@ -216,7 +210,7 @@
         <div class="settingSidebar">
           <a href="javascript:void(0)" class="settingPanelToggle"> <i class="fa fa-spin fa-cog"></i>
           </a>
-          <div class="settingSidebar-body ps-container ps-theme-default">
+          <div class="settingSidebar-body bodyElementps-container ps-theme-default">
             <div class=" fade show active">
               <div class="setting-panel-header">Setting Panel
               </div>
@@ -297,10 +291,17 @@
                 </div>
               </div>
               <div class="mt-4 mb-4 p-3 align-center rt-sidebar-last-ele">
-                <a href="#" class="btn btn-icon icon-left btn-primary btn-restore-theme">
-                  <i class="fas fa-undo"></i> Restore Default
+                <a href="#" class="btn btn-icon icon-left btn-danger btn-restore-theme">
+                  <i class="fas fa-undo"></i> Reinitialiser par defaut
+                </a>
+                <br>
+                <br>
+                <a href="#" onclick="save_my_color();"
+                    class="btn btn-icon icon-left btn-success btn-success-theme" style="color: white">
+                    <i class="fas fa-save"></i> Enregistrer son theme
                 </a>
               </div>
+
             </div>
           </div>
         </div>
@@ -312,29 +313,42 @@
         <div class="footer-right">
         </div>
       </footer>
+        <form action="{{ route('update_theme_app') }}" method="POST"
+            id="my_color_theme_form_id">
+            @csrf
+            <input type="hidden" name="my_color_theme" id="my_color_theme">
+        </form>
     </div>
   </div>
   <!-- General JS Scripts -->
-  <script src="{{asset('assets/js/app.min.js')}}"></script>
-  <!-- JS Libraies -->
-  <script src="{{asset('assets/bundles/apexcharts/apexcharts.min.js')}}"></script>
-  <!-- Page Specific JS File -->
-  <script src="{{asset('assets/js/page/index.js')}}"></script>
-  <script src="{{asset('assets/bundles/izitoast/js/iziToast.min.js')}}"></script>
-  <script src="{{asset('assets/js/page/toastr.js')}}"></script>
-  <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
+        <script src="{{asset('assets/js/app.min.js')}}"></script>
+        <!-- JS Libraies -->
+        <script src="{{asset('assets/bundles/apexcharts/apexcharts.min.js')}}"></script>
+        <!-- Page Specific JS File -->
+        <script src="{{asset('assets/js/page/index.js')}}"></script>
+        <script src="{{asset('assets/bundles/izitoast/js/iziToast.min.js')}}"></script>
+        {{-- <script src="{{asset('assets/js/page/toastr.js')}}"></script>
+        <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script> --}}
 
-  <!-- Page Specific JS File -->
-  <script src="{{asset('assets/bundles/select2/dist/js/select2.full.min.js')}}"></script>
+        <!-- Page Specific JS File -->
+        <script src="{{asset('assets/bundles/select2/dist/js/select2.full.min.js')}}"></script>
 
-  <!-- Template JS File -->
-  <script src="{{asset('assets/js/scripts.js')}}"></script>
-  <script src="{{asset('assets/bundles/sweetalert/sweetalert.min.js')}}"></script>
-  <!-- Custom JS File -->
-  <script src="{{asset('assets/js/custom.js')}}"></script>
+        <!-- Template JS File -->
+        <script src="{{asset('assets/js/scripts.js')}}"></script>
+        <script src="{{asset('assets/bundles/sweetalert/sweetalert.min.js')}}"></script>
+        <!-- Custom JS File -->
+        <script src="{{asset('assets/js/custom.js')}}"></script>
 
-  @yield('scripts')
-  {!! Toastr::message() !!}
+        @yield('scripts')
+        <script>
+             function save_my_color() {
+                var bodyElement = $('#myBody_Ongola');
+                var classesValue = bodyElement.attr('class');
+
+                $('#my_color_theme').val(classesValue);
+                $('#my_color_theme_form_id').submit();
+            }
+        </script>
 </body>
 
 

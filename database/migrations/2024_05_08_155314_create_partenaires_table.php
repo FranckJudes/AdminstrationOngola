@@ -13,18 +13,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-            Schema::create('partenaires', function (Blueprint $table) {
-                $table->id();
-                $table->string('nom');
-                $table->string('adresse');
-                $table->string('type');
-                $table->string('cni')->nullable();
-                $table->string('logo')->nullable();
-                $table->time('heure_ouverture')->nullable();
-                $table->time('heure_fermeture')->nullable();
-                $table->string('password');
-                $table->string('email')->unique();
-            });
+                Schema::create('partenaires', function (Blueprint $table) {
+                    $table->id();
+                    $table->string('nom');
+                    $table->string('adresse');
+                    $table->string('type');
+                    $table->string('cni')->nullable();
+                    $table->string('logo')->nullable();
+                    $table->time('heure_ouverture')->nullable();
+                    $table->time('heure_fermeture')->nullable();
+                    $table->string('password');
+                    $table->string('email')->unique();
+                });
         Schema::create('partenaire_user', function (Blueprint $table) {
             $table->foreignIdFor(Partenaires::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignIdFor(User::class)->constrained()->cascadeOnDelete()->cascadeOnUpdate();

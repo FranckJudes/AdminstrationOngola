@@ -58,12 +58,25 @@
                           <td class="align-middle">
                             {{$item->adresse}}
                           </td>
+
                           <td>
-                              <img alt="image" src="{{ asset($item->logo) }}" width="35">
+                            @if ($item->logo)
+                                <img alt="image" src="{{ asset($item->logo) }}" width="35">
+                            @else
+                            <img alt="image" src="{{asset('assets/img/user.png')}}"  width="35"
+                            class="user-img-radious-style">
+                            @endif
                           </td>
                           <td>{{ $item->created_at }}</td>
                           <td>
+                            @foreach($item->adminstrateurs as $utilisateur)
+                               <a type="button" class="btn btn-warning btn-icon icon-left">
+                                <i class="fas fa-user-tie"></i> {{ $utilisateur->name }} {{ $utilisateur->lastname }}
+                               </a>
+                            @endforeach
+
                           </td>
+
 
                       </tr>
                     @endforeach

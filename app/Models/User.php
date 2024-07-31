@@ -25,6 +25,7 @@ class User extends Authenticatable
         'telephone',
         'photo',
         'sexe',
+        'theme_preference'
 
     ];
 

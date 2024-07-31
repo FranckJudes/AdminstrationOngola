@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 
+use function Flasher\Toastr\Prime\toastr;
+
 class AuthController extends Controller
 {
     /**
@@ -16,6 +18,7 @@ class AuthController extends Controller
      */
     public function index()
     {
+        // Set a warning toast, with no title
         return view('Auth.auth-login');
     }
 
@@ -26,7 +29,7 @@ class AuthController extends Controller
 
 
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */
@@ -40,6 +43,7 @@ class AuthController extends Controller
      */
     public function store(Request $request)
     {
+
             try {
 
                 $credentials = $request->validate([
@@ -50,19 +54,17 @@ class AuthController extends Controller
                 if (Auth::attempt($credentials)) {
                     $request->session()->regenerate();
 
-                    Toastr::success('Heureux de vous revoir', 'Bienvenu');
-
+                    toastr()->success('Ravie de vous revoir');
                     return to_route('dashboard.index');
                 }
-                return back()->withErrors([
-                    'email' => 'The provided credentials do not match our records.',
-                ])->onlyInput('email');
-
-
+                toastr()->error('Email ou mot de passe incorrect');
+                return redirect()->back();
 
             } catch (\Throwable $th) {
-                Toastr::error('Messages in here', 'Title');
-                return redirect()->back();            }
+                dd($th->getMessage());
+                toastr()->error('Une erreur est survenue');
+                return redirect()->back();
+             }
     }
     /**
      * Display the specified resource.
@@ -107,12 +109,23 @@ class AuthController extends Controller
 
     public function logout(Request $request): RedirectResponse
     {
-        Auth::logout();
 
-        $request->session()->invalidate();
+        try {
+            //code...
+            Auth::logout();
 
-        $request->session()->regenerateToken();
+            $request->session()->invalidate();
 
-        return redirect('auth');
+            $request->session()->regenerateToken();
+            toastr()->success('Good Bye');
+            return to_route('auth.index');
+
+        } catch (\Throwable $th) {
+            //throw $th;
+            toastr()->error('Au revoir a vous');
+            return redirect()->back();
+        }
+
+
     }
 }

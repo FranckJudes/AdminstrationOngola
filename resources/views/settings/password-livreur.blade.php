@@ -12,7 +12,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h5>{{__('message._ent_arch_')}}</h5>
+                    <h5>Mot de passe par defaut des livreurs</h5>
                 </div>
                 <div class="card-body" >
                     <div class="col-md-8">
